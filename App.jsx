@@ -31,7 +31,7 @@ async function readCSV(file){
   return rows.map(line=>{ const vals=line.match(/\\\"([^\\\"]*)\\\"|[^,]+/g)?.map(s=> s?.replaceAll(/^\\\"|\\\"$/g,''))||[]; const obj={}; cols.forEach((c,i)=> obj[c]=vals[i]||'' ); return obj; })
 }
 
-/* --------- CATALOGO (igual v3) --------- */
+/* --------- CATALOGO --------- */
 function EntryKV({ obj, exclude=[] }){
   if(!obj || typeof obj!=='object') return null
   const keys = Object.keys(obj).filter(k=> !exclude.includes(k) && typeof obj[k] !== 'object')
@@ -171,7 +171,7 @@ function Dashboard({ members, sessions }){
   </div>)
 }
 
-/* --------- MEMBERS (v3 + Profile modal) --------- */
+/* --------- MEMBERS --------- */
 function ProfileModal({ member, onClose, sessions }){
   if(!member) return null
   // calcula loot total por player
@@ -262,7 +262,7 @@ function Members({ members, setMembers, onOpenProfile }){
   </Section>)
 }
 
-/* --------- BUILDER GAMIFICADO (slots) --------- */
+/* --------- BUILDER(slots) --------- */
 function LinkBonusPanel({ weaponId, pieces, linkJson }){
   const [active, setActive] = useState([])
   useEffect(()=>{
@@ -356,7 +356,7 @@ function Builder({ currentUser, members, setMembers, catalog }){
   )
 }
 
-/* --------- CREATE BUILD (como v3) --------- */
+/* --------- CREATE BUILD --------- */
 function BuildCard({ title, characterImg, icons }){
   return (
     <div className="card" style={{display:'grid', gridTemplateColumns:'96px 1fr', gap:12, alignItems:'center'}}>
@@ -438,7 +438,7 @@ function CreateBuild({ currentUser, members, setMembers, catalog, buildsLibrary,
 }
 
 
-/* --------- ADMIN (new) --------- */
+/* --------- ADMIN --------- */
 function Admin({ currentUser, settings, setSettings, members, setSystemAdmins, systemAdmins }){
   const canAdmin = currentUser?.cargoGuilda === "LIDER" || systemAdmins.includes(currentUser?.discord_id)
   const [bank, setBank] = React.useState(settings.defaultBankPercent ?? 10)
@@ -502,7 +502,7 @@ function Admin({ currentUser, settings, setSettings, members, setSystemAdmins, s
 
 
 
-/* --------- SESSION DETAILS MODAL (new) --------- */
+/* --------- SESSION DETAILS --------- */
 function SessionDetails({ session, onClose }){
   if(!session) return null
   const names = session.participants || []
@@ -601,7 +601,6 @@ export default function App(){
   const [catalog, setCatalog] = useState({ weapon:null, armor:null, stats:null, mod:null, drifter:null, link:null });
   const [buildsLibrary, setBuildsLibrary] = useState([]);
   const [profile, setProfile] = useState(null)
-
   return (<div className="container">
     <header style={{display:'flex',alignItems:'center',justifyContent:'space-between',marginBottom:16}}>
       <div style={{display:'flex',alignItems:'center',gap:10}}><img src="/images/logo.png" alt="STFU" style={{height:36,filter:'drop-shadow(0 0 8px rgba(255,0,61,.5))'}}/><div style={{fontFamily:'Russo One',letterSpacing:1,fontSize:20}}>STFU — Gestão de Guilda</div></div>
